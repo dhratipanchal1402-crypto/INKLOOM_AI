@@ -1,10 +1,109 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INKLOOM AI - Brand Governance</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
+
+    <nav class="navbar">
+        <div class="logo">🛡 INKLOOM <span>AI</span></div>
+        <span class="nav-tag">BRAND GOVERNANCE PLATFORM</span>
+    </nav>
+
+    <section class="hero">
+
+        <div class="tagline">✦ AI-POWERED CONTENT INTELLIGENCE</div>
+
+        <h1>Every word matters.<br>
+            <span>Make every word on-brand.</span>
+        </h1>
+
+        <p>
+            Ensure your content is accurate, consistent, and aligned
+            with your brand identity — before you publish.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#checker" class="primary-btn">Start Content Review →</a>
+            <a href="#features" class="secondary-btn">Explore Features</a>
+        </div>
+
+    </section>
+
+    <section class="checker" id="checker">
+
+        <div class="section-heading">
+            <div class="tagline">✦ CONTENT ANALYSIS</div>
+            <h2>Check your content</h2>
+            <p>Review your draft against your brand guidelines.</p>
+        </div>
+
+        <div class="review-box">
+
+            <label for="guidelines">BRAND GUIDELINES</label>
+
+            <textarea id="guidelines"
+                placeholder="Enter your brand rules here...&#10;Example: Use friendly and professional language.&#10;Always write our brand name as INKLOOM AI.&#10;Avoid unsupported claims."></textarea>
+
+            <label for="content">YOUR CONTENT</label>
+
+            <textarea id="content"
+                placeholder="Paste your content here for brand compliance checking..."></textarea>
+
+            <button class="primary-btn analyze-btn"
+                    onclick="analyzeContent()">
+                ✦ Analyze Content
+            </button>
+
+            <div id="results"></div>
+
+        </div>
+
+    </section>
+
+    <section class="features" id="features">
+
+        <div class="tagline">✦ WHY INKLOOM AI?</div>
+
+        <h2>Content you can trust.</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div class="feature-icon">✦</div>
+                <h3>Brand Consistency</h3>
+                <p>Maintain your brand's unique tone, voice and terminology.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">◎</div>
+                <h3>AI-Powered Analysis</h3>
+                <p>Identify potential issues before content goes live.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <h3>Smart Suggestions</h3>
+                <p>Get actionable feedback and improve your content.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="logo">🛡 INKLOOM <span>AI</span></div>
+        <p>Check before publish. © 2026 INKLOOM AI</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 </html>
