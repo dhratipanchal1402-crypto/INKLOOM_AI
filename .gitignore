@@ -1,4 +1,6 @@
 .env
-__pycache__/
 .venv/
-.idea/
+__pycache__/
+*.pyc
+*.db
+.idea/s

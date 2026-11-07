@@ -12,16 +12,19 @@
 
 <body>
 
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="logo">🛡 INKLOOM <span>AI</span></div>
         <span class="nav-tag">BRAND GOVERNANCE PLATFORM</span>
     </nav>
 
+    <!-- HERO SECTION -->
     <section class="hero">
 
         <div class="tagline">✦ AI-POWERED CONTENT INTELLIGENCE</div>
 
-        <h1>Every word matters.<br>
+        <h1>
+            Every word matters.<br>
             <span>Make every word on-brand.</span>
         </h1>
 
@@ -31,12 +34,70 @@
         </p>
 
         <div class="hero-buttons">
-            <a href="#checker" class="primary-btn">Start Content Review →</a>
-            <a href="#features" class="secondary-btn">Explore Features</a>
+            <a href="#checker" class="primary-btn">
+                Start Content Review →
+            </a>
+
+            <a href="#features" class="secondary-btn">
+                Explore Features
+            </a>
+
+            <a href="#dashboard" class="secondary-btn">
+                View Dashboard
+            </a>
         </div>
 
     </section>
 
+    <!-- DASHBOARD SECTION -->
+    <section class="dashboard" id="dashboard">
+
+        <div class="section-heading">
+            <div class="tagline">✦ YOUR WORKSPACE</div>
+            <h2>Analysis Dashboard</h2>
+            <p>Track your brand content review activity.</p>
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3 id="totalCount">0</h3>
+                <p>Total Analyses</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="approvedCount">0</h3>
+                <p>Approved</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="rejectedCount">0</h3>
+                <p>Rejected</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="pendingCount">0</h3>
+                <p>Pending</p>
+            </div>
+
+        </div>
+
+        <!-- ANALYSIS HISTORY -->
+        <div class="history-section">
+
+            <h2>Analysis History</h2>
+
+            <p>View your previously analyzed content and review status.</p>
+
+            <div id="historyList">
+                Loading history...
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CONTENT CHECKER -->
     <section class="checker" id="checker">
 
         <div class="section-heading">
@@ -50,7 +111,10 @@
             <label for="guidelines">BRAND GUIDELINES</label>
 
             <textarea id="guidelines"
-                placeholder="Enter your brand rules here...&#10;Example: Use friendly and professional language.&#10;Always write our brand name as INKLOOM AI.&#10;Avoid unsupported claims."></textarea>
+                placeholder="Enter your brand rules here...
+Example: Use friendly and professional language.
+Always write our brand name as INKLOOM AI.
+Avoid unsupported claims."></textarea>
 
             <label for="content">YOUR CONTENT</label>
 
@@ -68,6 +132,7 @@
 
     </section>
 
+    <!-- FEATURES SECTION -->
     <section class="features" id="features">
 
         <div class="tagline">✦ WHY INKLOOM AI?</div>
@@ -79,30 +144,38 @@
             <div class="feature-card">
                 <div class="feature-icon">✦</div>
                 <h3>Brand Consistency</h3>
-                <p>Maintain your brand's unique tone, voice and terminology.</p>
+                <p>
+                    Maintain your brand's unique tone, voice and terminology.
+                </p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">◎</div>
                 <h3>AI-Powered Analysis</h3>
-                <p>Identify potential issues before content goes live.</p>
+                <p>
+                    Identify potential issues before content goes live.
+                </p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">✓</div>
                 <h3>Smart Suggestions</h3>
-                <p>Get actionable feedback and improve your content.</p>
+                <p>
+                    Get actionable feedback and improve your content.
+                </p>
             </div>
 
         </div>
 
     </section>
 
+    <!-- FOOTER -->
     <footer>
         <div class="logo">🛡 INKLOOM <span>AI</span></div>
         <p>Check before publish. © 2026 INKLOOM AI</p>
     </footer>
 
+    <!-- JAVASCRIPT -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
