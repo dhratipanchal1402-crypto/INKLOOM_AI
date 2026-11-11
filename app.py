@@ -4,6 +4,8 @@ import re
 import os
 from dotenv import load_dotenv
 from google import genai
+import json
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -74,24 +76,24 @@ def analyze():
                 f"Always write the brand name as '{brand_name}'."
             )
     # 2. Unsupported claims
-    risky_words = [
-        "best in the world",
-        "100% guaranteed",
-        "number one",
-        "healthiest",
-        "cures all"
+    risky_patterns = [
+        r"\bbest in the world\b",
+        r"\b100%\s*guaranteed\b",
+        r"\bguarantees?\s+100%\s+success\b",
+        r"\bnumber one\b",
+        r"\bhealthiest\b",
+        r"\bcures all\b"
     ]
 
-    for word in risky_words:
-
-        if word in text:
-
+    for pattern in risky_patterns:
+        match = re.search(pattern, content, re.IGNORECASE)
+        if match:
             issues.append(
-                f"Potential unsupported claim detected: '{word}'."
+                f"Unsupported claim detected: {match.group(0)}"
             )
 
             suggestions.append(
-                f"Remove or rephrase '{word}' using verified claims."
+                f"Remove or rephrase '{match.group(0)}' using verified claims."
             )
 
     # 3. Tone checking
@@ -106,8 +108,21 @@ def analyze():
             "Replace multiple exclamation marks with a full stop."
         )
 
-    if "friendly" in rules and "dear customer" not in text:
+    friendly_greetings = [
+        "dear customer",
+        "welcome",
+        "hello",
+        "hi ",
+        "good morning",
+        "good afternoon"
+    ]
 
+    has_greeting = any(
+        greeting in text
+        for greeting in friendly_greetings
+    )
+
+    if "friendly" in rules and not has_greeting:
         issues.append(
             "Tone suggestion: Content may need a friendlier greeting."
         )
@@ -115,7 +130,6 @@ def analyze():
         suggestions.append(
             "Use a warm and welcoming greeting."
         )
-
     # 4. Gemini AI Analysis
     ai_result = ""
     ai_suggestions = ""
@@ -253,11 +267,77 @@ Give improved wording or practical corrections.
         + ai_suggestions
     )
 
+    # Save analysis history
+    history_entry = {
+        "date": datetime.now().strftime("%d-%m-%Y %I:%M %p"),
+        "guidelines": guidelines,
+        "content": content,
+        "result": final_result,
+        "suggestions": final_suggestions
+    }
+
+    try:
+        with open("history.json", "r", encoding="utf-8") as file:
+            history = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        history = []
+
+    history.append(history_entry)
+
+    with open("history.json", "w", encoding="utf-8") as file:
+        json.dump(history, file, indent=4)
     return jsonify({
         "result": final_result,
         "suggestions": final_suggestions
     })
 
+@app.route("/history", methods=["GET"])
+def get_history():
+    try:
+        with open("history.json", "r", encoding="utf-8") as file:
+            history = json.load(file)
+
+        return jsonify({
+            "success": True,
+            "history": history
+        })
+
+    except FileNotFoundError:
+        return jsonify({
+            "success": True,
+            "history": []
+        })
+
+@app.route("/save-guidelines", methods=["POST"])
+def save_guidelines():
+    data = request.get_json()
+    guidelines = data.get("guidelines", "").strip()
+
+    if not guidelines:
+        return jsonify({
+            "success": False,
+            "message": "Guidelines cannot be empty."
+        }), 400
+
+    with open("guidelines.json", "w", encoding="utf-8") as file:
+        json.dump({"guidelines": guidelines}, file, indent=4)
+
+    return jsonify({
+        "success": True,
+        "message": "Brand guidelines saved successfully!"
+    })
+
+
+@app.route("/get-guidelines", methods=["GET"])
+def get_guidelines():
+    try:
+        with open("guidelines.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        return jsonify(data)
+
+    except FileNotFoundError:
+        return jsonify({"guidelines": ""})
 
 if __name__ == "__main__":
     app.run(debug=True)

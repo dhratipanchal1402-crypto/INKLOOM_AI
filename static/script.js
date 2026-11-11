@@ -75,5 +75,43 @@ async function analyzeContent() {
 
         console.error(error);
 
+
     }
 }
+
+async function saveGuidelines() {
+    const guidelines = document.getElementById("guidelines").value;
+
+    try {
+        const response = await fetch("/save-guidelines", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ guidelines: guidelines })
+        });
+
+        const result = await response.json();
+
+        document.getElementById("saveMessage").innerText =
+            result.message;
+
+    } catch (error) {
+        document.getElementById("saveMessage").innerText =
+            "Unable to save guidelines.";
+    }
+}
+async function loadGuidelines() {
+    try {
+        const response = await fetch("/get-guidelines");
+        const data = await response.json();
+
+        document.getElementById("guidelines").value =
+            data.guidelines || "";
+
+    } catch (error) {
+        console.log("Unable to load saved guidelines.");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadGuidelines);
