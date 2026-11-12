@@ -83,7 +83,7 @@ document.getElementById("downloadReportBtn").style.display = "inline-block";
             </div>
 
         `;
-
+        loadDashboard();
     } catch (error) {
 
         results.innerHTML =
@@ -261,7 +261,7 @@ async function updateReviewStatus(status) {
                 "Status: " + status;
 
             alert("Review status saved successfully!");
-
+            loadDashboard();
         } else {
             alert("Could not save review status.");
         }
@@ -311,3 +311,62 @@ async function loadHistory() {
         historySection.innerHTML = "<p>Unable to load history.</p>";
     }
 }
+// DASHBOARD: LOAD HISTORY AND STATISTICS
+async function loadDashboard() {
+    const historyList = document.getElementById("historyList");
+
+    if (!historyList) return;
+
+    try {
+        const response = await fetch("/history");
+        const data = await response.json();
+
+        const history = data.history || [];
+
+        const approved = history.filter(
+            item => item.review_status === "Approved"
+        ).length;
+
+        const rejected = history.filter(
+            item => item.review_status === "Rejected"
+        ).length;
+
+        const pending = history.length - approved - rejected;
+
+        document.getElementById("totalCount").textContent = history.length;
+        document.getElementById("approvedCount").textContent = approved;
+        document.getElementById("rejectedCount").textContent = rejected;
+        document.getElementById("pendingCount").textContent = pending;
+
+        if (history.length === 0) {
+            historyList.innerHTML = "<p>No analysis history available.</p>";
+            return;
+        }
+
+        historyList.innerHTML = history.slice().reverse().map(item => `
+            <div class="history-card">
+                <h3>Review #${item.id}</h3>
+                <p><b>Date:</b> ${item.date || "N/A"}</p>
+                <p><b>Content:</b> ${escapeHTML(item.content || "").substring(0, 150)}</p>
+                <p><b>Status:</b> ${escapeHTML(item.review_status || "Pending Review")}</p>
+                <p><b>Analysis:</b> ${escapeHTML(item.result || "").substring(0, 250)}</p>
+            </div>
+        `).join("");
+
+    } catch (error) {
+        console.error("Dashboard Error:", error);
+        historyList.innerHTML = "<p>Unable to load dashboard.</p>";
+    }
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[char]);
+}
+
+document.addEventListener("DOMContentLoaded", loadDashboard);
