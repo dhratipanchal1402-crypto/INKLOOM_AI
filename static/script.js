@@ -38,6 +38,7 @@ async function analyzeContent() {
     content: content,
     result: data.result,
     suggestions: data.suggestions,
+    corrected_content: data.corrected_content,
     date: new Date().toLocaleString(),
     reviewStatus: "Pending Review"
 };
@@ -79,7 +80,11 @@ document.getElementById("downloadReportBtn").style.display = "inline-block";
                 <p style="margin-top:15px;white-space:pre-wrap;">
                     ${escapeHTML(data.suggestions)}
                 </p>
+            <h3 style="margin-top:20px;">✨ AI Generated Corrected Content</h3>
 
+<div style="margin-top:15px;padding:15px;background:#e8f7ed;border-radius:8px;white-space:pre-wrap;">
+    ${escapeHTML(data.corrected_content || "Corrected content unavailable.")}
+</div>
             </div>
 
         `;

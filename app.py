@@ -97,6 +97,8 @@ def analyze():
     guidelines = data.get("guidelines", "")
     content = data.get("content", "")
 
+    corrected_content = "Corrected content unavailable."
+
     if not guidelines.strip() or not content.strip():
         return jsonify({
             "result": "Please enter both guidelines and content.",
@@ -305,6 +307,48 @@ Give improved wording or practical corrections.
             "Gemini API key not configured. "
             "Only rule-based analysis was performed."
         )
+
+# Generate AI Corrected Content
+    corrected_content = "Corrected content unavailable."
+
+    if client:
+        try:
+            correction_prompt = f"""
+You are INKLOOM AI, a professional brand content correction assistant.
+
+Rewrite the original content according to the supplied brand guidelines.
+
+STRICT RULES:
+1. Use the approved brand name exactly as written.
+2. Maintain the required brand tone.
+3. Remove unsupported and exaggerated claims.
+4. Do not invent facts, guarantees, or promises.
+5. Use simple, clear and professional language.
+6. Avoid unnecessary exclamation marks.
+7. Preserve the original message wherever possible.
+8. Return only the corrected content.
+
+BRAND GUIDELINES:
+{guidelines}
+
+ORIGINAL CONTENT:
+{content}
+"""
+
+            correction_response = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=correction_prompt
+            )
+
+            corrected_content = (
+                correction_response.text
+                or "Unable to generate corrected content."
+            )
+
+        except Exception as error:
+            print("Correction Generation Error:", error)
+            corrected_content = f"Correction Error: {str(error)}"
+
     # 5. Severity Classification
     severity_results = []
 
@@ -370,6 +414,7 @@ Give improved wording or practical corrections.
         "date": datetime.now().strftime("%d-%m-%Y %I:%M %p"),
         "guidelines": guidelines,
         "content": content,
+        "corrected_content": corrected_content,
         "result": final_result,
         "suggestions": final_suggestions,
         "review_status": "Pending Review"
@@ -388,6 +433,7 @@ Give improved wording or practical corrections.
     return jsonify({
         "result": final_result,
         "suggestions": final_suggestions,
+        "corrected_content": corrected_content,
         "id": history_entry["id"]
     })
 
