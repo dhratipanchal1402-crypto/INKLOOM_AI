@@ -61,15 +61,55 @@
             <label for="content">YOUR CONTENT</label>
 
             <textarea id="content"
-                placeholder="Paste your content here for brand compliance checking..."></textarea>
+    placeholder="Paste your content here for brand compliance checking..."></textarea>
 
-            <button class="primary-btn analyze-btn"
-                    onclick="analyzeContent()">
-                ✦ Analyze Content
-            </button>
+<div class="upload-section">
+    <label for="fileUpload">📁 Upload Document (PDF, DOCX, TXT)</label>
+    <input type="file"
+           id="fileUpload"
+           accept=".pdf,.docx,.txt"
+           onchange="uploadDocument()">
+    <p id="uploadMessage"></p>
+</div>
+
+<button class="primary-btn analyze-btn"
+        onclick="analyzeContent()">
+    ✦ Analyze Content
+</button>
 
             <div id="results"></div>
+            <button id="downloadReportBtn"
+        class="primary-btn"
+        onclick="downloadComplianceReport()"
+        style="display: none; margin-top: 15px;">
+    📥 Download Compliance Report
+</button>
 
+          <br><br>
+
+<button class="primary-btn" onclick="loadHistory()">
+    📜 View Review History
+</button>
+
+<div id="historySection" style="margin-top: 20px;"></div>
+
+        <div id="reviewSection" style="display: none; margin-top: 20px;">
+
+    <h3>Human Review</h3>
+
+    <button class="primary-btn"
+            onclick="updateReviewStatus('Approved')">
+        ✅ Approve
+    </button>
+
+    <button class="primary-btn"
+            onclick="updateReviewStatus('Rejected')">
+        ❌ Reject
+    </button>
+
+    <p id="reviewStatus">Status: Pending Review</p>
+
+</div>
         </div>
 
     </section>
