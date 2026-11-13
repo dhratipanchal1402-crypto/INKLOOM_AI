@@ -8,6 +8,12 @@ INKLOOM AI is an AI-powered Brand Governance Platform that analyzes digital cont
 
 It identifies brand inconsistencies, unsupported claims, and tone-related issues using rule-based checks and Google Gemini AI. It also provides correction suggestions, severity levels, and compliance information to help users maintain consistent and trustworthy brand communication.
 
+## Live Demo
+
+**Live Application:** https://inkloom-ai-ep2x.onrender.com/
+
+INKLOOM AI is publicly accessible. No login or registration is required. Judges can directly access the application and test its features.
+
 ## Key Features
 
 - **Brand Guideline Management:** Save and load brand guidelines.
@@ -21,6 +27,8 @@ It identifies brand inconsistencies, unsupported claims, and tone-related issues
 - **Approval Workflow:** Allows users to approve or reject reviewed content.
 - **Analysis Dashboard:** Displays total, approved, rejected, and pending reviews.
 - **Analysis History:** Stores and displays previous content reviews.
+- **Explainable AI:** Explains detected brand violations and why content is flagged.
+- **AI-Generated Corrected Content:** Generates improved content based on the provided brand guidelines.
 
 ## Technologies Used
 
@@ -114,6 +122,26 @@ http://127.0.0.1:5000
 7. The user reviews the analysis and approves or rejects it.
 8. Guidelines and analysis history are stored using JSON files.
 9. The dashboard displays review statistics and previous analyses.
+
+## Testing
+
+The application was manually tested on both the local development environment and the deployed Render application.
+
+The following features were tested:
+
+- Brand guideline saving and loading.
+- PDF, DOCX, and TXT document uploads.
+- Rule-based content analysis.
+- Gemini AI analysis and correction suggestions.
+- Severity classification.
+- AI-generated corrected content.
+- Compliance report downloading.
+- Analysis history.
+- Approve and Reject review workflow.
+- Dashboard statistics.
+- Live application functionality on Render.
+
+All the above workflows were successfully tested in the working prototype.
 
 ## Project Objective
 
